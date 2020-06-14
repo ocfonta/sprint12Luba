@@ -1,8 +1,8 @@
-# ocfontapage2
+# sprint12
 
 ## version 1.0.2
 ---
-Ссылка на проект <https://ocfonta.github.io/ocfontapage2/>
+Ссылка на проект <>
 ---
 ### Как развернуть
 
