@@ -42,7 +42,7 @@ usersRoute.get('/:id', (req, res) => {
     .then((users) => {
       const user = users.find((item) => item.id === req.params.id);
       if (!user) {
-        return res.send({ message: 'Нет пользователя с таким id' });
+        return res.status(404).send({ message: 'Нет пользователя с таким id' });
       }
       return res.send(user);
     });
