@@ -1,6 +1,6 @@
  
     
-    class CardList {
+   export class CardList {
         constructor(card, api) {
             this.card = card;
        
@@ -11,7 +11,6 @@
       
         }
       
-          // Создает карточку и добавляет на страницу
         addCard(imageUrl, cardName){
         document.querySelector('.places-list').appendChild(this.card.createCard(imageUrl, cardName));
 

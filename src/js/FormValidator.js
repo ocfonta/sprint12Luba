@@ -1,25 +1,28 @@
 
 
 
-class FormValidator {
-    constructor() {
- this.checkInputValidity = this.checkInputValidity.bind(this);
- this.setSubmitButtonState = this.setSubmitButtonState.bind(this);
-    }
+import {popupEditButton} from '../index.js';
+export default class FormValidator {
+    constructor(popupElement) {
+
+
+  this.popupElement = popupElement;
+}
+    
     checkInputValidity(element) {
         const errorMessage = element.target.nextElementSibling;
         const value = element.target.value;
         const valueLength = value.length;
       
-       errorStatus = element.target.checkValidity();
+          ;
       
-        if(errorStatus === false && valueLength === 0 ) {
+        if(element.target.checkValidity() == false && valueLength === 0 ) {
       
           errorMessage.textContent = 'Это обязательное поле';
           popupEditButton.setAttribute('disabled', '');
           event.target.classList.add('input__error-message__true');
       
-        } else if (!errorStatus) {
+        } else if (!(element.target.checkValidity())) {
       
           errorMessage.textContent = 'Должно быть от 2 до 30 символов';
           popupEditButton.setAttribute('disabled', '');
@@ -30,7 +33,7 @@ class FormValidator {
           errorMessage.textContent = '';
           event.target.classList.remove('input__error-message__true');
         }
-      
+
     }
     setSubmitButtonState() {
         if(document.querySelector('.input__error-message__true') !== null) {
@@ -41,11 +44,11 @@ class FormValidator {
           }
 
     }
-    setEventListeners(event) {
-      
-        validator.checkInputValidity(event);
-        validator.setSubmitButtonState();
-    }
+    setEventListeners(element) {
+      element.addEventListener('input', this.checkInputValidity.bind(this));
+  }
 }
+
+
 
 

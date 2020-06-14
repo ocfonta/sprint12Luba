@@ -1,6 +1,6 @@
 
 
-class Card {
+export class Card {
     constructor () {
         this.like = this.like.bind(this);
         this.remove = this.remove.bind(this);
