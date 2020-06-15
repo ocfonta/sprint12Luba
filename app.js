@@ -11,9 +11,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', users);
 app.use('/cards', cards);
-app.use((req, res) => res.status(404).send({ message: 'Запрашиваемый ресурс: не найден' }));
-app.use((err, req, res) => res.status(500).json({ message: `Ошибка${err}` }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use((req, res) => res.status(404).send({ message: 'Запрашиваемый ресурс не найден' }));
+app.use((err, req, res) => {
+  res.status(500).json({ message: `Ошибка${err.message}` });
+});
 
 app.listen(PORT, () => {
 

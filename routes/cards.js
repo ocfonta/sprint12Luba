@@ -12,23 +12,24 @@ const doesFileExist = (req, res, next) => {
     if (err.code === 'ENOENT') {
       return res.status(500).json({ message: 'Запрашиваемый файл не найден' });
     }
-    return res.status(500).json({ message: err.code });
+    return res.status(500).json({ message: err.message });
   });
 };
 
-const getCardsAsyncAwait = async () => {
+const getCardsAsyncAwait = async (res) => {
   try {
     const data = await fs.promises
       .readFile(cardsPath, { encoding: 'utf8' });
     return JSON.parse(data);
   } catch (error) {
+    res.status(500).json({ message: 'Что-то не так с файлом на сервере' });
     return error;
   }
 };
 
 cardsRoute.get('/', doesFileExist);
 cardsRoute.get('/', async (req, res) => {
-  const cards = await getCardsAsyncAwait();
+  const cards = await getCardsAsyncAwait(res);
   res.send(cards);
 });
 
