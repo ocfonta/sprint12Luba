@@ -22,8 +22,7 @@ const getCardsAsyncAwait = async (res) => {
       .readFile(cardsPath, { encoding: 'utf8' });
     return JSON.parse(data);
   } catch (error) {
-    res.status(500).json({ message: 'Что-то не так с файлом на сервере' });
-    return error;
+    return res.status(500).json({ message: 'Что-то не так с файлом на сервере' });
   }
 };
 

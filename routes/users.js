@@ -22,8 +22,7 @@ const getUsersAsyncAwait = async (res) => {
       .readFile(userPath, { encoding: 'utf8' });
     return JSON.parse(data);
   } catch (error) {
-    res.status(500).json({ message: 'Что-то не так с файлом на сервере' });
-    return error;
+    return res.status(500).json({ message: 'Что-то не так с файлом на сервере' });
   }
 };
 
@@ -42,7 +41,7 @@ usersRoute.get('/:id', (req, res) => {
     .then((users) => {
       const user = users.find((item) => item.id === req.params.id);
       if (!user) {
-        return res.send({ message: 'Нет пользователя с таким id' });
+        return res.status(404).json({ message: 'Нет пользователя с таким id' });
       }
       return res.send(user);
     });
