@@ -12,17 +12,18 @@ const doesFileExist = (req, res, next) => {
     if (err.code === 'ENOENT') {
       return res.status(500).json({ message: 'Запрашиваемый файл не найден' });
     }
-    return res.status(500).json({ message: err.code });
+    return res.status(500).json({ message: err.message });
   });
 };
 
-const getUsersAsyncAwait = async () => {
+const getUsersAsyncAwait = async (res) => {
   try {
     const data = await fs.promises
       .readFile(userPath, { encoding: 'utf8' });
     return JSON.parse(data);
   } catch (error) {
-    return error;
+    res.status(500);
+    return JSON.stringify({ message: 'Что-то не так с файлом на сервере' });
   }
 };
 
@@ -32,17 +33,16 @@ const getUserPromise = () => fs.promises
 
 usersRoute.get('/', doesFileExist);
 usersRoute.get('/', async (req, res) => {
-  const users = await getUsersAsyncAwait();
+  const users = await getUsersAsyncAwait(res);
   res.send(users);
 });
 
-usersRoute.get('/:id', doesFileExist);
 usersRoute.get('/:id', (req, res) => {
   getUserPromise()
     .then((users) => {
       const user = users.find((item) => item.id === req.params.id);
       if (!user) {
-        return res.send({ message: 'Нет пользователя с таким id' });
+        return res.status(404).json({ message: 'Нет пользователя с таким id' });
       }
       return res.send(user);
     });
