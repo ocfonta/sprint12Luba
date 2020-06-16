@@ -22,7 +22,8 @@ const getUsersAsyncAwait = async (res) => {
       .readFile(userPath, { encoding: 'utf8' });
     return JSON.parse(data);
   } catch (error) {
-    return res.status(500).json({ message: 'Что-то не так с файлом на сервере' });
+    res.status(500);
+    return JSON.stringify({ message: 'Что-то не так с файлом на сервере' });
   }
 };
 
